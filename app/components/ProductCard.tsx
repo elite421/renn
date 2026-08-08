@@ -1,9 +1,7 @@
 import Image from "next/image";
-import { products } from "../data";
+import { ProductItem } from "../lib/contentStore";
 
-type Product = (typeof products)[number];
-
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: ProductItem }) {
   return (
     <article className="product-card" id={product.slug}>
       <div className="product-card-image">
@@ -14,8 +12,8 @@ export function ProductCard({ product }: { product: Product }) {
         <h2>{product.title}</h2>
         <p>{product.text}</p>
         <div className="tag-list">
-          {product.highlights.map((highlight) => (
-            <b key={highlight}>{highlight}</b>
+          {product.highlights.map((highlight, idx) => (
+            <b key={idx}>{highlight}</b>
           ))}
         </div>
       </div>

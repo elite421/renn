@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "RENN Products LLP",
     images: [
       {
-        url: "/images/hero-products.png",
+        url: "/images/hero-products-fresh.png",
         width: 1400,
         height: 980,
         alt: "RENN Products tissue and hygiene product range"
@@ -48,6 +48,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-IN">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

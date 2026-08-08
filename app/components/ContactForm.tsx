@@ -1,25 +1,28 @@
-import { products } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export function ContactForm() {
+export function ContactForm({ customContent }: { customContent?: ReturnType<typeof getSiteContent> }) {
+  const content = customContent || getSiteContent();
+  const { contactInfo, contactPage, products } = content;
+
   return (
-    <form action="https://formsubmit.co/rennproductsllp@gmail.com" method="POST" className="enquiry-form">
-      <input type="hidden" name="_subject" value="New RENN Products Website Enquiry" />
+    <form action={`https://formsubmit.co/${contactInfo.email}`} method="POST" className="enquiry-form">
+      <input type="hidden" name="_subject" value={`New ${content.header.brandMark} Website Enquiry`} />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
       <label>
-        Full Name
+        {contactPage.formNameLabel || "Full Name"}
         <input name="name" type="text" placeholder="Your name" required />
       </label>
       <label>
-        Email
+        {contactPage.formEmailLabel || "Email"}
         <input name="email" type="email" placeholder="you@example.com" required />
       </label>
       <label>
-        Phone
+        {contactPage.formPhoneLabel || "Phone"}
         <input name="phone" type="tel" placeholder="+91" required />
       </label>
       <label>
-        Product Interest
+        {contactPage.formCategoryLabel || "Product Interest"}
         <select name="product_interest" required defaultValue="">
           <option value="" disabled>
             Select product
@@ -31,10 +34,10 @@ export function ContactForm() {
         </select>
       </label>
       <label className="full">
-        Requirement
+        {contactPage.formMessageLabel || "Requirement"}
         <textarea name="message" rows={5} placeholder="Tell us quantity, city, packaging or branding needs" required />
       </label>
-      <button type="submit">Submit Enquiry</button>
+      <button type="submit">{contactPage.formSubmitText || "Submit Enquiry"}</button>
     </form>
   );
 }

@@ -2,6 +2,11 @@
   "name": "renn-products-website",
   "version": "1.0.0",
   "private": true,
+  "description": "Modern Next.js website for RENN Products LLP, built from the supplied company profile.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

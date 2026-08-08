@@ -2,34 +2,34 @@ import Link from "next/link";
 import { PageHero } from "../components/PageHero";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
-import { process } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export const metadata = {
-  title: "Process",
-  description: "See how RENN Products LLP handles hygiene product enquiries, specifications, production, packing and dispatch."
-};
+export const dynamic = "force-dynamic";
 
 export default function ProcessPage() {
+  const content = getSiteContent();
+  const { processPage, processSteps } = content;
+
   return (
     <>
-      <SiteHeader />
+      <SiteHeader customContent={content} />
       <main>
         <PageHero
-          kicker="Process"
-          title="A simple path from product requirement to repeat supply."
-          text="The process is designed to clarify specifications early, reduce confusion during packing and make repeat orders easier for business customers."
-          image="/images/company-profile.png"
-          alt="RENN company profile product artwork"
+          kicker={processPage.heroKicker}
+          title={processPage.heroTitle}
+          text={processPage.heroText}
+          image={processPage.heroImage}
+          alt={processPage.heroImageAlt || "Process"}
         />
 
         <section className="process-section page">
           <div className="timeline">
-            {process.map(([number, title, text]) => (
-              <article key={number}>
-                <span>{number}</span>
+            {processSteps.map((step, idx) => (
+              <article key={idx}>
+                <span>{step.number}</span>
                 <div>
-                  <h2>{title}</h2>
-                  <p>{text}</p>
+                  <h2>{step.title}</h2>
+                  <p>{step.text}</p>
                 </div>
               </article>
             ))}
@@ -38,23 +38,20 @@ export default function ProcessPage() {
 
         <section className="quality-band">
           <div>
-            <p className="section-kicker">Quality Approach</p>
-            <h2>Clear specifications, cleaner packing and practical dispatch planning.</h2>
+            <p className="section-kicker">{processPage.qualityKicker}</p>
+            <h2>{processPage.qualityTitle}</h2>
           </div>
-          <p>
-            RENN works with clients to understand the end-use environment before finalizing supply, whether the product
-            is going to retail shelves, hotel rooms, washrooms, kitchens, dining spaces or distributor cartons.
-          </p>
+          <p>{processPage.qualityDescription}</p>
         </section>
 
         <section className="cta-band">
-          <h2>Ready to define your next order?</h2>
+          <h2>{processPage.ctaHeading}</h2>
           <Link className="button primary" href="/contact">
-            Start an Enquiry
+            {processPage.ctaBtnText}
           </Link>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter customContent={content} />
     </>
   );
 }

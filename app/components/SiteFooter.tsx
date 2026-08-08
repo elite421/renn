@@ -1,23 +1,26 @@
 import Link from "next/link";
-import { contact, navItems, products } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export function SiteFooter() {
+export function SiteFooter({ customContent }: { customContent?: ReturnType<typeof getSiteContent> }) {
+  const content = customContent || getSiteContent();
+  const { header, footer, contactInfo, products } = content;
+
   return (
     <footer className="site-footer">
       <div className="footer-grid">
         <div className="footer-brand">
           <Link className="brand footer-logo" href="/">
-            <span className="brand-mark">RENN</span>
-            <span>Products LLP</span>
+            <span className="brand-mark">{header.brandMark}</span>
+            <span>{header.brandSub}</span>
           </Link>
-          <p>Smart Solution For Better Tomorrow</p>
-          <p>Premium hygiene paper, napkin and food-safe foil solutions engineered in India.</p>
+          <p>{footer.slogan}</p>
+          <p>{footer.description}</p>
         </div>
 
         <div>
           <h2>Pages</h2>
           <ul>
-            {navItems.map((item) => (
+            {header.navItems.map((item) => (
               <li key={item.href}>
                 <Link href={item.href}>{item.label}</Link>
               </li>
@@ -39,16 +42,16 @@ export function SiteFooter() {
         <div>
           <h2>Contact</h2>
           <address>
-            <a href={`tel:${contact.phonePrimary.replaceAll(" ", "")}`}>{contact.phonePrimary}</a>
-            <a href={`tel:${contact.phoneSecondary.replaceAll(" ", "")}`}>{contact.phoneSecondary}</a>
-            <a href={`mailto:${contact.email}`}>{contact.email}</a>
-            <span>{contact.location}</span>
+            <a href={`tel:${contactInfo.phonePrimary.replaceAll(" ", "")}`}>{contactInfo.phonePrimary}</a>
+            <a href={`tel:${contactInfo.phoneSecondary.replaceAll(" ", "")}`}>{contactInfo.phoneSecondary}</a>
+            <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+            <span>{contactInfo.location}</span>
           </address>
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 RENN Products LLP. All rights reserved.</span>
-        <Link href="/contact">Send Enquiry</Link>
+        <span>{footer.copyrightText}</span>
+        <Link href="/contact">{footer.ctaText}</Link>
       </div>
     </footer>
   );

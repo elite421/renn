@@ -3,77 +3,96 @@ import Link from "next/link";
 import { PageHero } from "../components/PageHero";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
-import { capabilities, sectors } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export const metadata = {
-  title: "About RENN Products LLP",
-  description: "Learn about RENN Products LLP, an Indian hygiene paper, napkin and food packaging supplier."
-};
+export const dynamic = "force-dynamic";
 
 export default function AboutPage() {
+  const content = getSiteContent();
+  const { about, home } = content;
+
   return (
     <>
-      <SiteHeader />
+      <SiteHeader customContent={content} />
       <main>
         <PageHero
-          kicker="About Us"
-          title="Reliable hygiene products with a practical manufacturing mindset."
-          text="RENN Products LLP supports businesses that want attractive product presentation, clean handling and consistent supply across tissue, napkin, roll and foil categories."
-          image="/images/story-renn.png"
-          alt="RENN products arranged for brand story"
+          kicker={about.heroKicker}
+          title={about.heroTitle}
+          text={about.heroText}
+          image={about.heroImage}
+          alt={about.heroImageAlt || "About RENN"}
         />
 
+        {/* Core Story Section */}
         <section className="story-section">
           <div className="story-copy">
-            <p className="section-kicker">Our Direction</p>
-            <h2>Everyday essentials should look good, perform well and arrive reliably.</h2>
-            <p>
-              The company is built around products that move quickly through real business environments: restaurants,
-              hotels, offices, hospitals, retail stores, caterers and distributors.
-            </p>
-            <p>
-              RENN combines product selection, pack planning and responsive communication so customers can source
-              hygiene essentials without unnecessary friction.
-            </p>
+            <p className="section-kicker">{about.directionKicker}</p>
+            <h2>{about.directionHeading}</h2>
+            <p>{about.directionParagraph1}</p>
+            <p>{about.directionParagraph2}</p>
           </div>
           <div className="story-card">
-            <Image src="/images/about-operations.png" alt="RENN operations visual" fill sizes="(max-width: 900px) 100vw, 40vw" />
+            <Image src={about.operationsImage} alt={about.operationsImageAlt || "Operations"} fill sizes="(max-width: 900px) 100vw, 40vw" />
           </div>
         </section>
 
+        {/* Mission Section */}
+        <section className="packaging-band">
+          <div className="packaging-copy">
+            <p className="section-kicker">{about.missionKicker || "Our Mission"}</p>
+            <h2>{about.missionHeading}</h2>
+            <p>{about.missionText1}</p>
+            <p>{about.missionText2}</p>
+          </div>
+          <div className="story-card" style={{ flex: "0 0 320px", height: "300px" }}>
+            <Image src="/images/facial-tissues-fresh.png" alt="RENN mission" fill sizes="320px" />
+          </div>
+        </section>
+
+        {/* Core Values Section */}
         <section className="values-section">
           <div className="section-heading">
-            <p className="section-kicker">What We Focus On</p>
-            <h2>Details that make repeat supply easier.</h2>
+            <p className="section-kicker">{about.focusKicker}</p>
+            <h2>{about.focusHeading}</h2>
           </div>
           <div className="capability-list wide">
-            {capabilities.map(([title, text]) => (
-              <article key={title}>
-                <strong>{title}</strong>
-                <span>{text}</span>
+            {home.capabilities.map((cap, idx) => (
+              <article key={idx}>
+                <strong>{idx + 1}. {cap.title}</strong>
+                <span>{cap.text}</span>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="sectors light">
-          <p className="section-kicker">Markets Served</p>
-          <h2>Built for high-use places where hygiene is visible every day.</h2>
+        {/* Promise Section */}
+        <section className="quality-band">
           <div>
-            {sectors.map((sector) => (
+            <p className="section-kicker">Our Commitment</p>
+            <h2>{about.promiseHeading || "Our Promise to You"}</h2>
+          </div>
+          <p>{about.promiseText}</p>
+        </section>
+
+        {/* Markets Served Section */}
+        <section className="sectors light">
+          <p className="section-kicker">{about.marketsKicker}</p>
+          <h2>{about.marketsHeading}</h2>
+          <div>
+            {home.sectors.map((sector) => (
               <span key={sector}>{sector}</span>
             ))}
           </div>
         </section>
 
         <section className="cta-band">
-          <h2>Planning a new tissue, napkin or foil requirement?</h2>
+          <h2>{about.ctaHeading}</h2>
           <Link className="button primary" href="/contact">
-            Send Enquiry
+            {about.ctaBtnText}
           </Link>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter customContent={content} />
     </>
   );
 }

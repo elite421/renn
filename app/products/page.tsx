@@ -4,24 +4,24 @@ import { PageHero } from "../components/PageHero";
 import { ProductCard } from "../components/ProductCard";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
-import { products } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export const metadata = {
-  title: "Products",
-  description: "Explore RENN Products LLP tissue paper, napkins, toilet rolls, kitchen towels, aluminium foil and custom packaging."
-};
+export const dynamic = "force-dynamic";
 
 export default function ProductsPage() {
+  const content = getSiteContent();
+  const { productsPage, products } = content;
+
   return (
     <>
-      <SiteHeader />
+      <SiteHeader customContent={content} />
       <main>
         <PageHero
-          kicker="Products"
-          title="A complete hygiene and food-service essentials range."
-          text="Explore tissue paper, napkins, roll products, aluminium foil, custom packaging and bulk supply options for retail, horeca and institutional clients."
-          image="/images/product-showcase.png"
-          alt="RENN product showcase"
+          kicker={productsPage.heroKicker}
+          title={productsPage.heroTitle}
+          text={productsPage.heroText}
+          image={productsPage.heroImage}
+          alt={productsPage.heroImageAlt || "Products"}
         />
 
         <section className="products-section page">
@@ -35,10 +35,10 @@ export default function ProductsPage() {
         <section className="detail-section">
           <div className="section-heading split">
             <div>
-              <p className="section-kicker">Product Details</p>
-              <h2>Specifications can be aligned to your business model.</h2>
+              <p className="section-kicker">{productsPage.detailsKicker}</p>
+              <h2>{productsPage.detailsTitle}</h2>
             </div>
-            <p>Use this range as a starting point, then share quantity, pack type, branding and destination needs.</p>
+            <p>{productsPage.detailsSubheading}</p>
           </div>
           <div className="detail-grid">
             {products.map((product) => (
@@ -48,8 +48,8 @@ export default function ProductsPage() {
                 </div>
                 <h3>{product.title}</h3>
                 <ul>
-                  {product.specs.map((spec) => (
-                    <li key={spec}>{spec}</li>
+                  {product.specs.map((spec, idx) => (
+                    <li key={idx}>{spec}</li>
                   ))}
                 </ul>
               </article>
@@ -58,13 +58,13 @@ export default function ProductsPage() {
         </section>
 
         <section className="cta-band">
-          <h2>Need mixed products or private-label packaging?</h2>
+          <h2>{productsPage.ctaHeading}</h2>
           <Link className="button primary" href="/contact">
-            Request Product Quote
+            {productsPage.ctaBtnText}
           </Link>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter customContent={content} />
     </>
   );
 }

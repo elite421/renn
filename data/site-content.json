@@ -1,0 +1,336 @@
+{
+  "header": {
+    "brandMark": "RENN",
+    "brandSub": "PRODUCTS LLP",
+    "navItems": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About Us",
+        "href": "/about"
+      },
+      {
+        "label": "Products",
+        "href": "/products"
+      },
+      {
+        "label": "Process",
+        "href": "/process"
+      },
+      {
+        "label": "Contact Us",
+        "href": "/contact"
+      }
+    ],
+    "ctaText": "Enquire Now",
+    "mobileCtaText": "Request Quote"
+  },
+  "footer": {
+    "slogan": "Softness That Cares. Cleanliness That Protects.",
+    "description": "Premium tissues, toilet rolls, wet wipes, and hygiene essentials crafted to deliver comfort you can feel and protection you can trust.",
+    "copyrightText": "© 2026 RENN Products LLP. All rights reserved.",
+    "ctaText": "Send Enquiry"
+  },
+  "contactInfo": {
+    "phonePrimary": "+91 77384 69862",
+    "phoneSecondary": "+91 77384 69866",
+    "email": "rennproductsllp@gmail.com",
+    "location": "India"
+  },
+  "home": {
+    "metaSlogan": "Softness That Cares. Cleanliness That Protects.",
+    "heroKicker": "Premium Tissues & Hygiene Essentials",
+    "heroTitle": "Softness That Cares. Cleanliness That Protects.",
+    "heroDescription": "Discover a new standard in everyday hygiene. Made with ultra-soft, skin-friendly materials and advanced hygiene technology, our range of tissues and hygiene products delivers comfort you can feel and protection you can trust — for your family, your home, and every moment that matters.",
+    "heroBtnPrimaryText": "Explore Products",
+    "heroBtnPrimaryLink": "/products",
+    "heroBtnSecondaryText": "Get a Quote",
+    "heroBtnSecondaryLink": "/contact",
+    "heroMainImage": "/images/hero-products-fresh.png",
+    "heroMainImageAlt": "RENN premium tissue and hygiene product collection",
+    "heroTopImage": "/images/facial-tissues-fresh.png",
+    "heroTopImageAlt": "RENN facial tissue box",
+    "heroBottomImage": "/images/toilet-rolls-fresh.png",
+    "heroBottomImageAlt": "RENN soft toilet paper rolls",
+    "metrics": [
+      {
+        "value": "3-Ply",
+        "label": "Luxurious Softness"
+      },
+      {
+        "value": "100%",
+        "label": "Skin-Friendly Fibers"
+      },
+      {
+        "value": "Eco",
+        "label": "Responsible Sourcing"
+      },
+      {
+        "value": "India",
+        "label": "Precision Quality"
+      }
+    ],
+    "aboutKicker": "Our Core Story",
+    "aboutTitle": "Hygiene should never come at the cost of comfort.",
+    "aboutParagraph1": "In a world full of harsh, rough, or overly chemical-laden products, we saw the need for tissues and hygiene essentials that truly care for the people who use them every day.",
+    "aboutParagraph2": "We started with one clear goal — to develop premium tissues, toilet rolls, wet wipes, and hygiene products that deliver luxurious softness without ever compromising on strength or cleanliness.",
+    "aboutImage": "/images/hero-products-fresh.png",
+    "aboutImageAlt": "RENN product care philosophy",
+    "aboutReadMoreText": "Read Our Full Story",
+    "capabilities": [
+      {
+        "title": "Care First",
+        "text": "Every product is designed with your comfort in mind. We prioritize skin-friendly materials that are gentle, even for sensitive skin."
+      },
+      {
+        "title": "Uncompromising Cleanliness",
+        "text": "We maintain the highest standards of hygiene so you can trust our products to protect your family every day."
+      },
+      {
+        "title": "Quality Without Compromise",
+        "text": "From ultra-soft textures to superior strength and absorbency, we never cut corners on details."
+      },
+      {
+        "title": "Thoughtful Responsibility",
+        "text": "Committed to sustainable choices — responsibly sourced materials, reduced plastic, and eco-conscious innovation."
+      }
+    ],
+    "productsKicker": "Our Product Range",
+    "productsTitle": "Thoughtfully crafted for daily comfort and uncompromised protection.",
+    "productsSubheading": "Explore premium toilet paper, facial tissues, heavy-duty kitchen towels, table napkins, interfolded N/Z tissues, and aluminium foil.",
+    "productsExploreBtnText": "View Complete Range",
+    "packagingKicker": "Custom & Bulk Supply",
+    "packagingTitle": "Custom branding, printed napkins & institutional supply.",
+    "packagingDescription": "We support businesses, restaurants, hotels, hospitals, and distributors with private-label packaging, logo printed napkins, and carton-ready quantities.",
+    "packagingLinkText": "Discuss Custom Branding",
+    "packagingImage1": "/images/table-napkins-fresh.png",
+    "packagingImage1Alt": "Custom printed napkins visual",
+    "packagingImage2": "/images/hero-products-fresh.png",
+    "packagingImage2Alt": "Bulk hygiene supply presentation",
+    "processKicker": "How We Deliver Quality",
+    "processTitle": "A clear, dependable process from specification to repeat supply.",
+    "sectorsKicker": "Widely Used In",
+    "sectorsTitle": "Homes, restaurants, hotels, offices, healthcare, and retail spaces.",
+    "sectors": [
+      "Homes & Families",
+      "Restaurants & Cafes",
+      "Hotels & Resorts",
+      "Hospitals & Clinics",
+      "Corporate Offices",
+      "Retail Outlets",
+      "Distributors & Export"
+    ],
+    "contactKicker": "Get In Touch",
+    "contactTitle": "Send an enquiry for retail, bulk, or custom branded orders.",
+    "contactDescription": "Share your requirement details and our sales team will get back to you promptly."
+  },
+  "about": {
+    "metaTitle": "About Us | RENN Products LLP",
+    "metaDescription": "Learn about RENN Products LLP, our mission, core story, values, and commitment to gentle softness and reliable hygiene.",
+    "heroKicker": "About RENN Products LLP",
+    "heroTitle": "Softness that cares. Cleanliness that protects.",
+    "heroText": "Experience the perfect balance of luxurious softness and reliable hygiene. Our premium tissues, toilet rolls, and hygiene essentials are thoughtfully crafted to be gentle on your skin while keeping your home and family protected every day.",
+    "heroImage": "/images/hero-products-fresh.png",
+    "heroImageAlt": "RENN brand philosophy visual",
+    "directionKicker": "Core Story",
+    "directionHeading": "It began with a simple realization: Hygiene should never come at the cost of comfort.",
+    "directionParagraph1": "In a world full of harsh, rough, or overly chemical-laden products, we saw the need for tissues and hygiene essentials that truly care for the people who use them every day. So, we set out to create a better way.",
+    "directionParagraph2": "Today, every product we make reflects our belief that the little things — a soft tissue when you need it most, a reliable roll that never tears, a fresh wipe that feels caring — can make a meaningful difference in daily life. We exist because we believe every touch should feel cared for.",
+    "missionKicker": "Our Mission",
+    "missionHeading": "To elevate everyday hygiene with genuine softness, reliable protection, and thoughtful care.",
+    "missionText1": "We believe true hygiene goes beyond cleanliness — it should feel comforting, be kind to sensitive skin, and bring peace of mind to every home.",
+    "missionText2": "That’s why we create premium tissues, toilet rolls, wet wipes, and hygiene essentials that deliver the perfect balance of luxurious comfort and uncompromising cleanliness.",
+    "promiseHeading": "Our Promise to You",
+    "promiseText": "At RENN, we believe hygiene should never compromise comfort. Our commitment is simple: Prioritize your family's comfort, use high-quality skin-friendly materials, maintain strict hygiene standards, and continuously innovate sustainably.",
+    "operationsImage": "/images/kitchen-towels-fresh.png",
+    "operationsImageAlt": "RENN quality packaging operations",
+    "focusKicker": "Our 5 Core Values",
+    "focusHeading": "We don't just make tissues — we create them with purpose.",
+    "marketsKicker": "Markets We Serve",
+    "marketsHeading": "Delivering soft, dependable hygiene across industries.",
+    "ctaHeading": "Ready to experience RENN premium hygiene quality?",
+    "ctaBtnText": "Contact Us Today"
+  },
+  "productsPage": {
+    "metaTitle": "Products | RENN Products LLP",
+    "metaDescription": "Discover RENN toilet paper, facial tissues, kitchen towels, napkins, N/Z fold tissues, and aluminium foil.",
+    "heroKicker": "Product Portfolio",
+    "heroTitle": "Premium Hygiene Essentials Crafted for Comfort & Strength.",
+    "heroText": "Made with ultra-soft, skin-friendly fibers and advanced hygiene standards. Choose standard packs or custom branding for your business.",
+    "heroImage": "/images/hero-products-fresh.png",
+    "heroImageAlt": "RENN full product range display",
+    "detailsKicker": "Product Specifications",
+    "detailsTitle": "Tailored to homes, hospitality, offices, and retail.",
+    "detailsSubheading": "Select from standard retail packs or request private label & logo printing for your business.",
+    "ctaHeading": "Looking for custom logo napkins or bulk supply?",
+    "ctaBtnText": "Request Custom Quote"
+  },
+  "processPage": {
+    "metaTitle": "Process | RENN Products LLP",
+    "metaDescription": "Our quality approach from raw fiber selection to clean packing and repeat dispatch.",
+    "heroKicker": "Our Process",
+    "heroTitle": "Uncompromising Quality from Selection to Supply.",
+    "heroText": "We combine gentle fiber selection, advanced hygiene tech, clean packing, and dependable dispatch to ensure every roll and pack meets exact standards.",
+    "heroImage": "/images/kitchen-towels-fresh.png",
+    "heroImageAlt": "RENN supply process",
+    "qualityKicker": "Quality Approach",
+    "qualityTitle": "Hygiene technology, skin-friendly fibers & clean packaging.",
+    "qualityDescription": "Every batch undergoes rigorous quality checks for soft texture, wet strength, absorbency, and hygiene safety before being packed and dispatched.",
+    "ctaHeading": "Start your custom order or inquiry today",
+    "ctaBtnText": "Get Started"
+  },
+  "contactPage": {
+    "metaTitle": "Contact Us | RENN Products LLP",
+    "metaDescription": "Contact RENN Products LLP for retail, horeca, distributor, and custom branding enquiries.",
+    "heroKicker": "Contact RENN Products LLP",
+    "heroTitle": "We're here to help with your hygiene supply needs.",
+    "heroText": "Have questions about our products, custom logo printing, private-label packaging, or bulk orders? Reach out to our team today.",
+    "heroImage": "/images/table-napkins-fresh.png",
+    "heroImageAlt": "RENN contact visual",
+    "reachKicker": "Direct Contact Information",
+    "reachTitle": "Reach out to us directly or fill out the inquiry form.",
+    "reachDescription": "Our team will review your requirement and respond with pricing, samples, and shipping details.",
+    "formTitle": "Send an Enquiry",
+    "formSubheading": "Complete the form below and we will contact you shortly.",
+    "formNameLabel": "Full Name",
+    "formEmailLabel": "Email Address",
+    "formPhoneLabel": "Phone Number",
+    "formCategoryLabel": "Product Category",
+    "formMessageLabel": "Requirement & Quantity Details",
+    "formSubmitText": "Submit Requirement",
+    "formSuccessMsg": "Thank you! Your enquiry has been received by RENN Products LLP."
+  },
+  "products": [
+    {
+      "slug": "toilet-paper-bathroom-tissue",
+      "title": "Toilet Paper / Bathroom Tissue",
+      "eyebrow": "3-Ply Premium Soft & Eco-Friendly",
+      "text": "Experience ultimate comfort with our 3-ply toilet paper, crafted from sustainable virgin and recycled pulp. Extra soft yet strong, it dissolves quickly to prevent clogs while delivering a gentle, thorough clean for your family.",
+      "image": "/images/toilet-rolls-fresh.png",
+      "highlights": [
+        "3-Ply extra soft & plush",
+        "Quick-dissolving & flushable",
+        "Hypoallergenic & eco-friendly"
+      ],
+      "specs": [
+        "Standard & jumbo rolls",
+        "1-ply to 3-ply options",
+        "Retail & bulk packs"
+      ]
+    },
+    {
+      "slug": "lotion-facial-tissues",
+      "title": "Lotion Facial Tissues",
+      "eyebrow": "Ultra-Soft & Gentle on Sensitive Skin",
+      "text": "Indulge in soothing softness with lotion-infused facial tissues. Designed to be gentle on delicate skin, these multi-ply tissues trap moisture effectively without irritation. Ideal for allergies, colds, makeup removal, or daily touch-ups.",
+      "image": "/images/facial-tissues-fresh.png",
+      "highlights": [
+        "Lotion-infused soothing soft",
+        "Multi-ply tear resistance",
+        "Gentle for sensitive skin"
+      ],
+      "specs": [
+        "Compact box packs",
+        "Travel pocket packs",
+        "Skin-friendly pure pulp"
+      ]
+    },
+    {
+      "slug": "heavy-duty-kitchen-paper-towels",
+      "title": "Heavy-Duty Kitchen Paper Towels",
+      "eyebrow": "Super Absorbent & Spill Resistant",
+      "text": "Super absorbent and tough – our kitchen towels handle big messes with ease. Made with recycled fibers for an eco-conscious choice, they are perfect for drying hands, cleaning countertops, and wiping spills without leaving lint behind.",
+      "image": "/images/kitchen-towels-fresh.png",
+      "highlights": [
+        "High absorbency texture",
+        "Lint-free clean wiping",
+        "Recycled eco fibers"
+      ],
+      "specs": [
+        "Perforated roll format",
+        "High wet-strength",
+        "Home & commercial use"
+      ]
+    },
+    {
+      "slug": "table-napkins-logo-printed",
+      "title": "Napkins & Custom Logo Printed Napkins",
+      "eyebrow": "Dining, Catering & Brand Presentation",
+      "text": "Embossed paper napkins for meals, parties, or wiping hands and mouth. Available in cocktail, dinner, and custom sizes with custom logo printing to enhance tabletop presentation for restaurants, cafes, and events.",
+      "image": "/images/table-napkins-fresh.png",
+      "highlights": [
+        "Custom logo brand printing",
+        "Embossed superior absorbency",
+        "Cocktail & dinner sizes"
+      ],
+      "specs": [
+        "Quarter fold & dinner fold",
+        "Custom print options",
+        "Bulk & retail packs"
+      ]
+    },
+    {
+      "slug": "nz-fold-interfolded-tissues",
+      "title": "N / Z Fold Interfolded Tissues",
+      "eyebrow": "Commercial Washroom Dispenser Tissues",
+      "text": "Interfolded single-sheet dispenser tissues designed for controlled, hygienic single-sheet dispensing in commercial washrooms, offices, clinics, and restaurants. Reduces product waste and cross-contamination.",
+      "image": "/images/facial-tissues-fresh.png",
+      "highlights": [
+        "1-sheet-at-a-time dispensing",
+        "Reduces waste & costs",
+        "Touch-free hygienic format"
+      ],
+      "specs": [
+        "N-fold & Z-fold sheets",
+        "Fits standard dispensers",
+        "High absorbency tissue"
+      ]
+    },
+    {
+      "slug": "kitchen-aluminium-foil",
+      "title": "Kitchen Aluminium Foil",
+      "eyebrow": "Food-Grade Wrapping & Storage",
+      "text": "Food-safe aluminium foil rolls for wrapping, takeaway packing, baking, storage, catering, and everyday commercial kitchens. Provides an airtight heat and moisture barrier to lock in food freshness.",
+      "image": "/images/kitchen-foil-fresh.png",
+      "highlights": [
+        "100% Food-grade material",
+        "Heat & moisture barrier",
+        "Retail & catering widths"
+      ],
+      "specs": [
+        "Heavy-duty foil rolls",
+        "Catering & home sizes",
+        "Tear-resistant foil"
+      ]
+    }
+  ],
+  "processSteps": [
+    {
+      "number": "01",
+      "title": "Requirement & Specification",
+      "text": "We confirm product category, ply, sheet size, packaging format, custom branding/logo needs, and delivery expectations."
+    },
+    {
+      "number": "02",
+      "title": "Fiber Selection & Hygiene Tech",
+      "text": "Selected gentle, skin-friendly fibers and advanced hygiene processing ensure luxurious softness and zero harsh chemicals."
+    },
+    {
+      "number": "03",
+      "title": "Precision Manufacturing",
+      "text": "Controlled multi-ply embossing, interfolding, perforation, and custom logo printing for consistent quality."
+    },
+    {
+      "number": "04",
+      "title": "Clean Packing",
+      "text": "Hygienic automatic wrapping into shelf-ready retail boxes, travel packs, or distributor bulk cartons."
+    },
+    {
+      "number": "05",
+      "title": "Dispatch & Repeat Supply",
+      "text": "Reliable distribution for homes, horeca, retail outlets, corporate offices, and export partners."
+    }
+  ]
+}

@@ -1,16 +1,19 @@
 import Link from "next/link";
-import { navItems } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export function SiteHeader() {
+export function SiteHeader({ customContent }: { customContent?: ReturnType<typeof getSiteContent> }) {
+  const content = customContent || getSiteContent();
+  const { header } = content;
+
   return (
     <header className="site-header" aria-label="Primary navigation">
-      <Link className="brand" href="/" aria-label="RENN Products home">
-        <span className="brand-mark">RENN</span>
-        <span>Products LLP</span>
+      <Link className="brand" href="/" aria-label={`${header.brandMark} home`}>
+        <span className="brand-mark">{header.brandMark}</span>
+        <span>{header.brandSub}</span>
       </Link>
 
       <nav className="desktop-nav" aria-label="Main menu">
-        {navItems.map((item) => (
+        {header.navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             {item.label}
           </Link>
@@ -18,7 +21,7 @@ export function SiteHeader() {
       </nav>
 
       <Link className="nav-cta" href="/contact">
-        Enquire
+        {header.ctaText}
       </Link>
 
       <details className="mobile-menu">
@@ -28,13 +31,13 @@ export function SiteHeader() {
           <span />
         </summary>
         <nav aria-label="Mobile menu">
-          {navItems.map((item) => (
+          {header.navItems.map((item) => (
             <Link key={item.href} href={item.href}>
               {item.label}
             </Link>
           ))}
           <Link className="mobile-cta" href="/contact">
-            Request Quote
+            {header.mobileCtaText}
           </Link>
         </nav>
       </details>

@@ -2,42 +2,42 @@ import { ContactForm } from "../components/ContactForm";
 import { PageHero } from "../components/PageHero";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
-import { contact } from "../data";
+import { getSiteContent } from "../lib/contentStore";
 
-export const metadata = {
-  title: "Contact",
-  description: "Contact RENN Products LLP for tissue, napkin, aluminium foil, custom packaging and bulk hygiene supply enquiries."
-};
+export const dynamic = "force-dynamic";
 
 export default function ContactPage() {
+  const content = getSiteContent();
+  const { contactPage, contactInfo } = content;
+
   return (
     <>
-      <SiteHeader />
+      <SiteHeader customContent={content} />
       <main>
         <PageHero
-          kicker="Contact"
-          title="Tell us what you need. We will help shape the product requirement."
-          text="Share the product category, quantity, city, packaging expectations and branding needs so the team can respond with the right direction."
-          image="/images/custom-packaging.png"
-          alt="RENN custom packaging products"
+          kicker={contactPage.heroKicker}
+          title={contactPage.heroTitle}
+          text={contactPage.heroText}
+          image={contactPage.heroImage}
+          alt={contactPage.heroImageAlt || "Contact"}
         />
 
         <section className="contact-preview page">
           <div className="contact-copy">
-            <p className="section-kicker">Reach RENN Products LLP</p>
-            <h2>For retail, horeca, distributor, institutional and custom branding enquiries.</h2>
-            <p>Use the form or contact directly through phone and email.</p>
+            <p className="section-kicker">{contactPage.reachKicker}</p>
+            <h2>{contactPage.reachTitle}</h2>
+            <p>{contactPage.reachDescription}</p>
             <address>
-              <a href="tel:+917738469862">{contact.phonePrimary}</a>
-              <a href="tel:+917738469866">{contact.phoneSecondary}</a>
-              <a href={`mailto:${contact.email}`}>{contact.email}</a>
-              <span>{contact.location}</span>
+              <a href={`tel:${contactInfo.phonePrimary.replaceAll(" ", "")}`}>{contactInfo.phonePrimary}</a>
+              <a href={`tel:${contactInfo.phoneSecondary.replaceAll(" ", "")}`}>{contactInfo.phoneSecondary}</a>
+              <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+              <span>{contactInfo.location}</span>
             </address>
           </div>
-          <ContactForm />
+          <ContactForm customContent={content} />
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter customContent={content} />
     </>
   );
 }
