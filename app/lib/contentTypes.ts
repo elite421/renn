@@ -49,6 +49,20 @@ export interface SiteContent {
     email: string;
     location: string;
   };
+  theme: {
+    enabled: boolean;
+    mode: "light" | "dark" | "auto";
+    template: "default" | "forest" | "ocean" | "sunset" | "royal" | "minimal" | "custom";
+    primaryColor: string;
+    accentColor: string;
+    backgroundColor: string;
+    textColor: string;
+    borderRadius: string;
+    fontFamily: string;
+    heroBackground: string;
+    cardBackground: string;
+    sectionBackground: string;
+  };
   home: {
     metaSlogan: string;
     heroKicker: string;
@@ -199,6 +213,20 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     phoneSecondary: "+91 77384 69866",
     email: "rennproductsllp@gmail.com",
     location: "India"
+  },
+  theme: {
+    enabled: true,
+    mode: "light",
+    template: "default",
+    primaryColor: "#0d4a36",
+    accentColor: "#78ad25",
+    backgroundColor: "#fbfaf4",
+    textColor: "#17231c",
+    borderRadius: "12px",
+    fontFamily: "Inter",
+    heroBackground: "linear-gradient(175deg, rgba(255, 255, 255, 0.9), rgba(245, 250, 239, 0.6))",
+    cardBackground: "rgba(255, 255, 255, 0.9)",
+    sectionBackground: "#ffffff"
   },
   home: {
     metaSlogan: "Softness That Cares. Cleanliness That Protects.",

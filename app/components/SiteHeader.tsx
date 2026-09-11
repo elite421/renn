@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { getSiteContent } from "../lib/contentStore";
+import { ThemeToggleClient } from "./ThemeToggleClient";
 
 export function SiteHeader({ customContent }: { customContent?: ReturnType<typeof getSiteContent> }) {
   const content = customContent || getSiteContent();
-  const { header } = content;
+  const { header, theme } = content;
 
   return (
     <header className="site-header" aria-label="Primary navigation">
@@ -20,9 +21,12 @@ export function SiteHeader({ customContent }: { customContent?: ReturnType<typeo
         ))}
       </nav>
 
-      <Link className="nav-cta" href="/contact">
-        {header.ctaText}
-      </Link>
+      <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+        <ThemeToggleClient enabled={theme?.enabled || false} />
+        <Link className="nav-cta" href="/contact">
+          {header.ctaText}
+        </Link>
+      </div>
 
       <details className="mobile-menu">
         <summary aria-label="Open navigation">
@@ -36,6 +40,7 @@ export function SiteHeader({ customContent }: { customContent?: ReturnType<typeo
               {item.label}
             </Link>
           ))}
+          <ThemeToggleClient enabled={theme?.enabled || false} />
           <Link className="mobile-cta" href="/contact">
             {header.mobileCtaText}
           </Link>

@@ -33,6 +33,111 @@
   --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
   --font-display: "Outfit", system-ui, -apple-system, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  
+  /* Theme variables - can be overridden by admin settings */
+  --theme-primary: #0d4a36;
+  --theme-accent: #78ad25;
+  
+  /* Custom background variables */
+  --hero-background: linear-gradient(175deg, rgba(255, 255, 255, 0.9), rgba(245, 250, 239, 0.6));
+  --card-background: rgba(255, 255, 255, 0.9);
+  --section-background: #ffffff;
+}
+
+/* -------------------- Dark Mode Theme -------------------- */
+.dark {
+  --forest: #1a3d2e;
+  --forest-2: #2d5a4a;
+  --forest-deep: #0f2a1f;
+  --mint: #1a3d2e;
+  --mint-soft: #2d5a4a;
+  --leaf: #8bc43f;
+  --leaf-glow: #9ed54f;
+  --violet: #8b4d9e;
+  --violet-soft: #b85cae;
+  --gold: #d4a847;
+  --gold-warm: #f0d9a7;
+  --ink: #e8f4e1;
+  --muted: #a8c4b0;
+  --line: #3d5a4a;
+  --paper: #1a1a1a;
+  --white: #f5f5f5;
+  --shadow: 0 28px 80px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 32px 64px rgba(0, 0, 0, 0.5);
+}
+
+.dark .site-header {
+  background: rgba(26, 26, 26, 0.9);
+  border-bottom-color: rgba(61, 90, 74, 0.4);
+}
+
+.dark .hero {
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(120, 173, 37, 0.15), transparent 40%),
+    radial-gradient(ellipse at 85% 15%, rgba(121, 48, 143, 0.12), transparent 35%),
+    radial-gradient(ellipse at 50% 100%, rgba(200, 154, 49, 0.08), transparent 40%),
+    linear-gradient(175deg, rgba(30, 30, 30, 0.95), rgba(20, 40, 30, 0.9));
+}
+
+.dark .hero-copy p:not(.section-kicker),
+.dark .page-hero p:not(.section-kicker),
+.dark .about-copy p,
+.dark .section-heading p,
+.dark .packaging-copy p,
+.dark .story-copy p,
+.dark .contact-copy p,
+.dark .quality-band p {
+  color: var(--muted);
+}
+
+.dark .about-panel,
+.dark .products-section,
+.dark .process-section {
+  background: linear-gradient(180deg, #1a1a1a, #252525);
+}
+
+.dark .metric-strip,
+.dark .process-grid,
+.dark .product-card-grid,
+.dark .detail-grid {
+  background: rgba(30, 30, 30, 0.95);
+  border-color: rgba(61, 90, 74, 0.4);
+}
+
+.dark .product-card,
+.dark .capability-list article,
+.dark .detail-grid article,
+.dark .timeline article {
+  background: rgba(35, 35, 35, 0.9);
+  border-color: rgba(61, 90, 74, 0.4);
+}
+
+.dark .packaging-band,
+.dark .sectors,
+.dark .quality-band {
+  background: linear-gradient(160deg, #1a3d2e, #0f2a1f);
+}
+
+.dark .contact-preview {
+  background: radial-gradient(ellipse at 90% 15%, rgba(121, 48, 143, 0.1), transparent 30%), #1a1a1a;
+}
+
+.dark .enquiry-form {
+  background: rgba(30, 30, 30, 0.95);
+  border-color: rgba(61, 90, 74, 0.4);
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background: rgba(20, 20, 20, 0.8);
+  border-color: rgba(61, 90, 74, 0.6);
+  color: var(--ink);
+}
+
+.dark .site-footer {
+  background: linear-gradient(180deg, #0f2a1f, #061a12);
 }
 
 /* -------------------- Keyframe Animations -------------------- */
@@ -141,6 +246,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
@@ -408,7 +514,7 @@ p {
     radial-gradient(ellipse at 10% 20%, rgba(120, 173, 37, 0.1), transparent 40%),
     radial-gradient(ellipse at 85% 15%, rgba(121, 48, 143, 0.08), transparent 35%),
     radial-gradient(ellipse at 50% 100%, rgba(200, 154, 49, 0.06), transparent 40%),
-    linear-gradient(175deg, rgba(255, 255, 255, 0.9), rgba(245, 250, 239, 0.6));
+    var(--hero-background);
   position: relative;
   overflow: hidden;
 }
@@ -636,16 +742,19 @@ h1 {
 /* -------------------- Shared Section Padding -------------------- */
 .about-panel,
 .products-section,
-.packaging-band,
 .process-section,
 .story-section,
-.sectors,
 .contact-preview,
 .values-section,
 .detail-section,
-.quality-band,
 .cta-band,
 .page-hero {
+  padding: clamp(60px, 8vw, 112px) clamp(18px, 5vw, 72px);
+}
+
+.packaging-band,
+.sectors,
+.quality-band {
   padding: clamp(60px, 8vw, 112px) clamp(18px, 5vw, 72px);
 }
 
@@ -746,7 +855,7 @@ h1 {
   border: 1px solid rgba(220, 228, 218, 0.6);
   border-left: 4px solid var(--gold);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--card-background);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow-soft);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
@@ -800,7 +909,7 @@ h1 {
   padding: 20px;
   border: 1px solid rgba(220, 228, 218, 0.5);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--card-background);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow-soft);
   scroll-margin-top: 96px;
@@ -1198,7 +1307,7 @@ address a:hover {
   padding: clamp(24px, 4vw, 38px);
   border: 1px solid rgba(220, 228, 218, 0.5);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--card-background);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow);
 }
@@ -1298,7 +1407,7 @@ textarea {
   padding: 24px;
   border: 1px solid rgba(220, 228, 218, 0.5);
   border-radius: var(--radius-lg);
-  background: rgba(255, 253, 248, 0.9);
+  background: var(--card-background);
   box-shadow: var(--shadow-soft);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
@@ -1353,7 +1462,7 @@ textarea {
   padding: 28px;
   border: 1px solid rgba(220, 228, 218, 0.5);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-background);
   box-shadow: var(--shadow-soft);
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }

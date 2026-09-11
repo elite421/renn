@@ -2,11 +2,11 @@ import { getSiteContent } from "../lib/contentStore";
 
 export function ContactForm({ customContent }: { customContent?: ReturnType<typeof getSiteContent> }) {
   const content = customContent || getSiteContent();
-  const { contactInfo, contactPage, products } = content;
+  const { header, contactInfo, contactPage, products } = content;
 
   return (
     <form action={`https://formsubmit.co/${contactInfo.email}`} method="POST" className="enquiry-form">
-      <input type="hidden" name="_subject" value={`New ${content.header.brandMark} Website Enquiry`} />
+      <input type="hidden" name="_subject" value={`New ${header.brandMark} Website Enquiry`} />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
       <label>

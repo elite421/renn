@@ -17,6 +17,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      return NextResponse.json({ error: "Only image files are allowed" }, { status: 400 });
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      return NextResponse.json({ error: "File size exceeds 5MB limit" }, { status: 400 });
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -25,16 +36,18 @@ export async function POST(request: Request) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
 
-    // Sanitize filename
+    // Sanitize filename and add extension
     const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const timestamp = Date.now();
-    const fileName = `${timestamp}-${originalName}`;
+    const extension = originalName.split('.').pop() || 'jpg';
+    const baseName = originalName.replace(`.${extension}`, '');
+    const fileName = `${timestamp}-${baseName}.${extension}`;
     const filePath = path.join(uploadsDir, fileName);
 
     fs.writeFileSync(filePath, buffer);
 
     const publicUrl = `/uploads/${fileName}`;
-    return NextResponse.json({ success: true, url: publicUrl });
+    return NextResponse.json({ success: true, url: publicUrl, fileName: fileName });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Failed to upload image" }, { status: 500 });

@@ -17,6 +17,15 @@ export function getSiteContent(): SiteContent {
         header: { ...DEFAULT_SITE_CONTENT.header, ...(parsed.header || {}) },
         footer: { ...DEFAULT_SITE_CONTENT.footer, ...(parsed.footer || {}) },
         contactInfo: { ...DEFAULT_SITE_CONTENT.contactInfo, ...(parsed.contactInfo || {}) },
+        theme: { 
+          ...DEFAULT_SITE_CONTENT.theme, 
+          ...(parsed.theme || {}),
+          // Ensure new fields are present
+          template: parsed.theme?.template || DEFAULT_SITE_CONTENT.theme.template,
+          heroBackground: parsed.theme?.heroBackground || DEFAULT_SITE_CONTENT.theme.heroBackground,
+          cardBackground: parsed.theme?.cardBackground || DEFAULT_SITE_CONTENT.theme.cardBackground,
+          sectionBackground: parsed.theme?.sectionBackground || DEFAULT_SITE_CONTENT.theme.sectionBackground
+        },
         home: { ...DEFAULT_SITE_CONTENT.home, ...(parsed.home || {}) },
         about: { ...DEFAULT_SITE_CONTENT.about, ...(parsed.about || {}) },
         productsPage: { ...DEFAULT_SITE_CONTENT.productsPage, ...(parsed.productsPage || {}) },

@@ -4,6 +4,7 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import Link from "next/link";
 import "./admin.css";
 import { SiteContent, DEFAULT_SITE_CONTENT, ProductItem, ProcessItem, CapabilityItem, MetricItem, NavItem } from "../lib/contentTypes";
+import { THEME_TEMPLATES, applyThemeTemplate } from "../lib/themeTemplates";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -13,7 +14,7 @@ export default function AdminPage() {
 
   // Content state
   const [content, setContent] = useState<SiteContent>(DEFAULT_SITE_CONTENT);
-  const [activeTab, setActiveTab] = useState<"general" | "home" | "about" | "products" | "process" | "contact" | "media">("home");
+  const [activeTab, setActiveTab] = useState<"general" | "home" | "about" | "products" | "process" | "contact" | "theme" | "media">("home");
   const [isDirty, setIsDirty] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [toastMsg, setToastMsg] = useState("");
@@ -125,23 +126,44 @@ export default function AdminPage() {
 
   // Helper to handle image uploads inline
   const uploadImage = async (file: File, callback: (url: string) => void) => {
+    // Validate file
+    if (!file.type.startsWith('image/')) {
+      showToast("Please select an image file.");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      showToast("File size must be less than 5MB.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
+    
     try {
+      showToast("Uploading image...");
       const res = await fetch("/api/admin/upload", {
         method: "POST",
         body: formData
       });
+      
       const data = await res.json();
+      
+      if (!res.ok) {
+        showToast(data.error || "Image upload failed.");
+        return;
+      }
+      
       if (data.url) {
         callback(data.url);
         setIsDirty(true);
         showToast("Image uploaded successfully!");
       } else {
-        showToast("Image upload failed.");
+        showToast("Image upload failed - no URL returned.");
       }
-    } catch {
-      showToast("Error uploading image.");
+    } catch (error) {
+      console.error("Upload error:", error);
+      showToast("Error uploading image. Please try again.");
     }
   };
 
@@ -241,6 +263,9 @@ export default function AdminPage() {
         </button>
         <button className={`admin-tab ${activeTab === "general" ? "active" : ""}`} onClick={() => setActiveTab("general")}>
           🌐 Header, Footer & Contact Info
+        </button>
+        <button className={`admin-tab ${activeTab === "theme" ? "active" : ""}`} onClick={() => setActiveTab("theme")}>
+          🎨 Theme Settings
         </button>
       </div>
 
@@ -1362,6 +1387,409 @@ export default function AdminPage() {
                     value={content.footer.ctaText}
                     onChange={(e) => updateState(["footer", "ctaText"], e.target.value)}
                   />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== THEME SETTINGS TAB ==================== */}
+        {activeTab === "theme" && (
+          <div>
+            <div className="admin-section-card">
+              <h3>Theme Configuration</h3>
+              <p className="subtitle">Choose a template or customize your website appearance with advanced controls.</p>
+
+              <div className="admin-grid-2">
+                <div className="admin-field">
+                  <label>Enable Theme Switching</label>
+                  <select
+                    value={content.theme.enabled ? "true" : "false"}
+                    onChange={(e) => updateState(["theme", "enabled"], e.target.value === "true")}
+                  >
+                    <option value="true">Enabled</option>
+                    <option value="false">Disabled</option>
+                  </select>
+                </div>
+                <div className="admin-field">
+                  <label>Default Theme Mode</label>
+                  <select
+                    value={content.theme.mode}
+                    onChange={(e) => updateState(["theme", "mode"], e.target.value as "light" | "dark" | "auto")}
+                  >
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="auto">Auto (System Preference)</option>
+                  </select>
+                </div>
+              </div>
+
+              <h4 style={{ color: "#a3e635", marginTop: "24px", marginBottom: "16px" }}>🎨 Theme Templates</h4>
+              <p style={{ color: "#617064", marginBottom: "16px", fontSize: "14px" }}>Select a pre-designed theme template to instantly change your website's look and feel.</p>
+              
+              <div style={{ 
+                display: "grid", 
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", 
+                gap: "16px",
+                marginBottom: "24px"
+              }}>
+                {Object.entries(THEME_TEMPLATES).map(([key, template]) => (
+                  <div
+                    key={key}
+                    onClick={() => {
+                      const themeSettings = applyThemeTemplate(key);
+                      Object.entries(themeSettings).forEach(([settingKey, value]) => {
+                        if (value !== undefined) {
+                          updateState(["theme", settingKey as any], value);
+                        }
+                      });
+                      showToast(`${template.name} theme applied!`);
+                    }}
+                    style={{
+                      padding: "16px",
+                      borderRadius: "12px",
+                      border: `2px solid ${content.theme.template === key ? content.theme.primaryColor : "#dce4da"}`,
+                      background: content.theme.template === key ? template.colors.cardBackground : "#ffffff",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                      position: "relative"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = template.colors.primaryColor;
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = content.theme.template === key ? content.theme.primaryColor : "#dce4da";
+                      e.currentTarget.style.transform = "translateY(0)";
+                    }}
+                  >
+                    <div style={{ fontSize: "32px", marginBottom: "8px" }}>{template.preview}</div>
+                    <h5 style={{ 
+                      margin: "0 0 4px 0", 
+                      color: template.colors.textColor,
+                      fontSize: "16px",
+                      fontWeight: "700"
+                    }}>{template.name}</h5>
+                    <p style={{ 
+                      margin: 0, 
+                      color: template.colors.textColor,
+                      opacity: 0.7,
+                      fontSize: "12px",
+                      lineHeight: "1.4"
+                    }}>{template.description}</p>
+                    <div style={{ 
+                      marginTop: "12px", 
+                      display: "flex", 
+                      gap: "4px" 
+                    }}>
+                      <div style={{ 
+                        width: "20px", 
+                        height: "20px", 
+                        borderRadius: "50%", 
+                        background: template.colors.primaryColor,
+                        border: "1px solid rgba(0,0,0,0.1)"
+                      }} />
+                      <div style={{ 
+                        width: "20px", 
+                        height: "20px", 
+                        borderRadius: "50%", 
+                        background: template.colors.accentColor,
+                        border: "1px solid rgba(0,0,0,0.1)"
+                      }} />
+                      <div style={{ 
+                        width: "20px", 
+                        height: "20px", 
+                        borderRadius: "50%", 
+                        background: template.colors.backgroundColor,
+                        border: "1px solid rgba(0,0,0,0.1)"
+                      }} />
+                    </div>
+                    {content.theme.template === key && (
+                      <div style={{
+                        position: "absolute",
+                        top: "8px",
+                        right: "8px",
+                        background: template.colors.primaryColor,
+                        color: "white",
+                        padding: "2px 8px",
+                        borderRadius: "12px",
+                        fontSize: "10px",
+                        fontWeight: "bold"
+                      }}>
+                        Active
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <h4 style={{ color: "#a3e635", marginTop: "24px", marginBottom: "16px" }}>🎛️ Advanced Customization</h4>
+              <p style={{ color: "#617064", marginBottom: "16px", fontSize: "14px" }}>Fine-tune individual colors and settings for complete control.</p>
+
+              <h5 style={{ color: "#78ad25", marginTop: "16px", marginBottom: "12px" }}>Brand Colors</h5>
+              <div className="admin-grid-2">
+                <div className="admin-field">
+                  <label>Primary Color</label>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <input
+                      type="color"
+                      value={content.theme.primaryColor}
+                      onChange={(e) => updateState(["theme", "primaryColor"], e.target.value)}
+                      style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                    />
+                    <input
+                      type="text"
+                      value={content.theme.primaryColor}
+                      onChange={(e) => updateState(["theme", "primaryColor"], e.target.value)}
+                      placeholder="#0d4a36"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+                <div className="admin-field">
+                  <label>Accent Color</label>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <input
+                      type="color"
+                      value={content.theme.accentColor}
+                      onChange={(e) => updateState(["theme", "accentColor"], e.target.value)}
+                      style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                    />
+                    <input
+                      type="text"
+                      value={content.theme.accentColor}
+                      onChange={(e) => updateState(["theme", "accentColor"], e.target.value)}
+                      placeholder="#78ad25"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <h5 style={{ color: "#78ad25", marginTop: "20px", marginBottom: "12px" }}>Background Colors</h5>
+              <div className="admin-grid-2">
+                <div className="admin-field">
+                  <label>Page Background</label>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <input
+                      type="color"
+                      value={content.theme.backgroundColor}
+                      onChange={(e) => updateState(["theme", "backgroundColor"], e.target.value)}
+                      style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                    />
+                    <input
+                      type="text"
+                      value={content.theme.backgroundColor}
+                      onChange={(e) => updateState(["theme", "backgroundColor"], e.target.value)}
+                      placeholder="#fbfaf4"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+                <div className="admin-field">
+                  <label>Hero Background</label>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <input
+                      type="color"
+                      value={content.theme.heroBackground.startsWith('#') ? content.theme.heroBackground : "#ffffff"}
+                      onChange={(e) => updateState(["theme", "heroBackground"], e.target.value)}
+                      style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                    />
+                    <input
+                      type="text"
+                      value={content.theme.heroBackground}
+                      onChange={(e) => updateState(["theme", "heroBackground"], e.target.value)}
+                      placeholder="gradient or color"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="admin-grid-2">
+                <div className="admin-field">
+                  <label>Card Background</label>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <input
+                      type="color"
+                      value={content.theme.cardBackground.startsWith('#') ? content.theme.cardBackground : "#ffffff"}
+                      onChange={(e) => updateState(["theme", "cardBackground"], e.target.value)}
+                      style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                    />
+                    <input
+                      type="text"
+                      value={content.theme.cardBackground}
+                      onChange={(e) => updateState(["theme", "cardBackground"], e.target.value)}
+                      placeholder="#ffffff"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+                <div className="admin-field">
+                  <label>Section Background</label>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <input
+                      type="color"
+                      value={content.theme.sectionBackground.startsWith('#') ? content.theme.sectionBackground : "#ffffff"}
+                      onChange={(e) => updateState(["theme", "sectionBackground"], e.target.value)}
+                      style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                    />
+                    <input
+                      type="text"
+                      value={content.theme.sectionBackground}
+                      onChange={(e) => updateState(["theme", "sectionBackground"], e.target.value)}
+                      placeholder="#ffffff"
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="admin-field">
+                <label>Text Color</label>
+                <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                  <input
+                    type="color"
+                    value={content.theme.textColor}
+                    onChange={(e) => updateState(["theme", "textColor"], e.target.value)}
+                    style={{ width: "60px", height: "40px", padding: "2px", cursor: "pointer" }}
+                  />
+                  <input
+                    type="text"
+                    value={content.theme.textColor}
+                    onChange={(e) => updateState(["theme", "textColor"], e.target.value)}
+                    placeholder="#17231c"
+                    style={{ flex: 1 }}
+                  />
+                </div>
+              </div>
+
+              <h5 style={{ color: "#78ad25", marginTop: "20px", marginBottom: "12px" }}>Typography & Design</h5>
+              <div className="admin-grid-2">
+                <div className="admin-field">
+                  <label>Border Radius</label>
+                  <select
+                    value={content.theme.borderRadius}
+                    onChange={(e) => updateState(["theme", "borderRadius"], e.target.value)}
+                  >
+                    <option value="4px">Small (4px)</option>
+                    <option value="8px">Medium (8px)</option>
+                    <option value="12px">Large (12px)</option>
+                    <option value="16px">Extra Large (16px)</option>
+                    <option value="24px">Rounded (24px)</option>
+                    <option value="0px">Square (0px)</option>
+                  </select>
+                </div>
+                <div className="admin-field">
+                  <label>Font Family</label>
+                  <select
+                    value={content.theme.fontFamily}
+                    onChange={(e) => updateState(["theme", "fontFamily"], e.target.value)}
+                  >
+                    <option value="Inter">Inter (Modern)</option>
+                    <option value="Outfit">Outfit (Display)</option>
+                    <option value="Arial">Arial (Classic)</option>
+                    <option value="Georgia">Georgia (Serif)</option>
+                    <option value="system-ui">System UI</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="admin-field">
+                <label>Live Theme Preview</label>
+                <div style={{
+                  padding: "24px",
+                  borderRadius: content.theme.borderRadius,
+                  background: content.theme.backgroundColor,
+                  border: `2px solid ${content.theme.primaryColor}`,
+                  marginTop: "12px",
+                  fontFamily: content.theme.fontFamily,
+                  color: content.theme.textColor
+                }}>
+                  <h4 style={{ 
+                    marginBottom: "12px",
+                    color: content.theme.primaryColor
+                  }}>
+                    Theme Preview
+                  </h4>
+                  <p style={{ 
+                    marginBottom: "16px",
+                    opacity: 0.8,
+                    lineHeight: "1.6"
+                  }}>
+                    This is how your theme will appear on the website. The preview shows your color choices, typography, and spacing settings in real-time.
+                  </p>
+                  <div style={{ 
+                    background: content.theme.cardBackground,
+                    padding: "16px",
+                    borderRadius: content.theme.borderRadius,
+                    marginBottom: "16px",
+                    border: "1px solid rgba(0,0,0,0.1)"
+                  }}>
+                    <strong>Card Example</strong>
+                    <p style={{ margin: "8px 0 0 0", fontSize: "14px", opacity: 0.7 }}>
+                      This shows how cards will look with your theme settings.
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "12px" }}>
+                    <button style={{
+                      background: content.theme.primaryColor,
+                      color: "#ffffff",
+                      border: "none",
+                      padding: "12px 24px",
+                      borderRadius: content.theme.borderRadius,
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontFamily: content.theme.fontFamily
+                    }}>
+                      Primary Button
+                    </button>
+                    <button style={{
+                      background: content.theme.accentColor,
+                      color: "#ffffff",
+                      border: "none",
+                      padding: "12px 24px",
+                      borderRadius: content.theme.borderRadius,
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontFamily: content.theme.fontFamily
+                    }}>
+                      Accent Button
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="admin-field">
+                <label>Quick Actions</label>
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "12px" }}>
+                  <button 
+                    onClick={() => {
+                      const randomColor = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                      updateState(["theme", "primaryColor"], randomColor());
+                      updateState(["theme", "accentColor"], randomColor());
+                      updateState(["theme", "template"], "custom");
+                      showToast("Random colors generated!");
+                    }}
+                    className="admin-btn admin-btn-secondary"
+                  >
+                    🎨 Random Colors
+                  </button>
+                  <button 
+                    onClick={() => {
+                      updateState(["theme", "template"], "default");
+                      const defaultSettings = applyThemeTemplate("default");
+                      Object.entries(defaultSettings).forEach(([key, value]) => {
+                        if (value !== undefined) {
+                          updateState(["theme", key as any], value);
+                        }
+                      });
+                      showToast("Reset to default theme!");
+                    }}
+                    className="admin-btn admin-btn-secondary"
+                  >
+                    🔄 Reset to Default
+                  </button>
                 </div>
               </div>
             </div>
