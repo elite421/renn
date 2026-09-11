@@ -6,6 +6,28 @@ import "./admin.css";
 import { SiteContent, DEFAULT_SITE_CONTENT, ProductItem, ProcessItem, CapabilityItem, MetricItem, NavItem } from "../lib/contentTypes";
 import { THEME_TEMPLATES, applyThemeTemplate } from "../lib/themeTemplates";
 
+// Simple base64 encoding/decoding for browser
+const base64Encode = (str: string): string => {
+  try {
+    return btoa(str);
+  } catch (e) {
+    // Fallback for Unicode strings
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+      (match, p1) => String.fromCharCode(parseInt(p1, 16))));
+  }
+};
+
+const base64Decode = (str: string): string => {
+  try {
+    return atob(str);
+  } catch (e) {
+    // Fallback for Unicode strings
+    return decodeURIComponent(atob(str).split('').map(c => 
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+  }
+};
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
@@ -14,7 +36,7 @@ export default function AdminPage() {
 
   // Content state
   const [content, setContent] = useState<SiteContent>(DEFAULT_SITE_CONTENT);
-  const [activeTab, setActiveTab] = useState<"general" | "home" | "about" | "products" | "process" | "contact" | "theme" | "media">("home");
+  const [activeTab, setActiveTab] = useState<"general" | "home" | "about" | "products" | "process" | "contact" | "theme" | "storage" | "media">("home");
   const [isDirty, setIsDirty] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [toastMsg, setToastMsg] = useState("");
@@ -266,6 +288,9 @@ export default function AdminPage() {
         </button>
         <button className={`admin-tab ${activeTab === "theme" ? "active" : ""}`} onClick={() => setActiveTab("theme")}>
           🎨 Theme Settings
+        </button>
+        <button className={`admin-tab ${activeTab === "storage" ? "active" : ""}`} onClick={() => setActiveTab("storage")}>
+          💾 Storage Settings
         </button>
       </div>
 
@@ -1790,6 +1815,239 @@ export default function AdminPage() {
                   >
                     🔄 Reset to Default
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== STORAGE SETTINGS TAB ==================== */}
+        {activeTab === "storage" && (
+          <div>
+            <div className="admin-section-card">
+              <h3>Storage Configuration</h3>
+              <p className="subtitle">Configure how your website content is stored and persisted.</p>
+
+              <div className="admin-field">
+                <label>Storage Environment</label>
+                <div style={{
+                  padding: "16px",
+                  borderRadius: "8px",
+                  background: "#09120c",
+                  border: "1px solid #1a2f24",
+                  marginTop: "8px"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                    <div style={{ 
+                      width: "12px", 
+                      height: "12px", 
+                      borderRadius: "50%", 
+                      background: "#78ad25" 
+                    }} />
+                    <span style={{ color: "#e2e8f0", fontWeight: "600" }}>
+                      File System Storage (Local Development)
+                    </span>
+                  </div>
+                  <p style={{ color: "#94a3b8", fontSize: "14px", marginBottom: "8px" }}>
+                    Content is saved to <code>data/site-content.json</code> file. Works for local development and traditional hosting.
+                  </p>
+                </div>
+
+                <div style={{
+                  padding: "16px",
+                  borderRadius: "8px",
+                  background: "#09120c",
+                  border: "1px solid #1a2f24",
+                  marginTop: "12px"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                    <div style={{ 
+                      width: "12px", 
+                      height: "12px", 
+                      borderRadius: "50%", 
+                      background: "#f97316" 
+                    }} />
+                    <span style={{ color: "#e2e8f0", fontWeight: "600" }}>
+                      Serverless Storage (Vercel/AWS Lambda)
+                    </span>
+                  </div>
+                  <p style={{ color: "#94a3b8", fontSize: "14px", marginBottom: "8px" }}>
+                    File system is read-only. Content changes won't persist between deployments. 
+                    <strong>Current limitation: Changes will be lost on next deployment.</strong>
+                  </p>
+                </div>
+              </div>
+
+              <div className="admin-section-card">
+                <h3>Vercel Storage Setup</h3>
+                <p className="subtitle">Enable persistent storage for your Vercel deployment.</p>
+
+                <div className="admin-field">
+                  <label>Environment Variable Setup</label>
+                  <div style={{ 
+                    padding: "16px", 
+                    borderRadius: "8px", 
+                    background: "#1a2f24", 
+                    marginTop: "8px",
+                    fontFamily: "monospace",
+                    fontSize: "13px",
+                    color: "#94a3b8"
+                  }}>
+                    <p style={{ margin: "0 0 12px 0", color: "#78ad25" }}>
+                      Step 1: Generate Environment Variable
+                    </p>
+                    <code style={{ 
+                      display: "block", 
+                      padding: "8px", 
+                      background: "#09120c", 
+                      borderRadius: "4px",
+                      marginBottom: "12px",
+                      color: "#e2e8f0"
+                    }}>
+                      node -e "console.log(require('./app/lib/vercelStorage').VercelStorage.generateEnvVar())"
+                    </code>
+                    
+                    <p style={{ margin: "0 0 12px 0", color: "#78ad25" }}>
+                      Step 2: Add to Vercel Environment Variables
+                    </p>
+                    <ol style={{ margin: "0 0 12px 0", paddingLeft: "20px", color: "#94a3b8" }}>
+                      <li>Go to Vercel Dashboard → Your Project</li>
+                      <li>Navigate to Settings → Environment Variables</li>
+                      <li>Add variable name: <code>SITE_CONTENT_JSON</code></li>
+                      <li>Paste the generated value from Step 1</li>
+                      <li>Select the appropriate environment(s)</li>
+                      <li>Save and redeploy your application</li>
+                    </ol>
+
+                    <p style={{ margin: "0 0 12px 0", color: "#78ad25" }}>
+                      Step 3: Verify Setup
+                    </p>
+                    <button 
+                      onClick={async () => {
+                        try {
+                          const res = await fetch("/api/admin/storage-info");
+                          const data = await res.json();
+                          if (data.currentEnvValue === "SET") {
+                            showToast("✅ Environment variable is configured!");
+                          } else {
+                            showToast("⚠️ Environment variable not set yet");
+                          }
+                        } catch {
+                          showToast("Error checking storage configuration");
+                        }
+                      }}
+                      className="admin-btn admin-btn-secondary"
+                      style={{ marginTop: "8px" }}
+                    >
+                      Check Storage Configuration
+                    </button>
+                  </div>
+                </div>
+
+                <div className="admin-section-card">
+                  <h3>Alternative Storage Solutions</h3>
+                  <p className="subtitle">For production use, consider integrating a database.</p>
+
+                  <div style={{ display: "grid", gap: "16px" }}>
+                    <div style={{
+                      padding: "16px",
+                      borderRadius: "8px",
+                      background: "#1a2f24",
+                      border: "1px solid #2d4a3a"
+                    }}>
+                      <h4 style={{ color: "#78ad25", margin: "0 0 8px 0" }}>Vercel Postgres</h4>
+                      <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
+                        Managed PostgreSQL database with automatic backups and scaling. 
+                        Recommended for production applications.
+                      </p>
+                    </div>
+
+                    <div style={{
+                      padding: "16px",
+                      borderRadius: "8px",
+                      background: "#1a2f24",
+                      border: "1px solid #2d4a3a"
+                    }}>
+                      <h4 style={{ color: "#78ad25", margin: "0 0 8px 0" }}>Supabase</h4>
+                      <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
+                        Open-source Firebase alternative with PostgreSQL database, 
+                        real-time subscriptions, and storage.
+                      </p>
+                    </div>
+
+                    <div style={{
+                      padding: "16px",
+                      borderRadius: "8px",
+                      background: "#1a2f24",
+                      border: "1px solid #2d4a3a"
+                    }}>
+                      <h4 style={{ color: "#78ad25", margin: "0 0 8px 0" }}>Vercel KV</h4>
+                      <p style={{ color: "#94a3b8", fontSize: "14px", margin: 0 }}>
+                        Redis-compatible key-value store for caching and session management.
+                        Simple integration for basic storage needs.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="admin-section-card">
+                  <h3>Current Content Export</h3>
+                  <p className="subtitle">Export your current content for backup or manual environment variable setup.</p>
+
+                  <div className="admin-field">
+                    <button 
+                      onClick={() => {
+                        const contentStr = JSON.stringify(content, null, 2);
+                        const blob = new Blob([contentStr], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'site-content-backup.json';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        showToast("Content exported successfully!");
+                      }}
+                      className="admin-btn admin-btn-primary"
+                    >
+                      📥 Export Current Content
+                    </button>
+                  </div>
+
+                  <div className="admin-field">
+                    <label>Environment Variable Value</label>
+                    <textarea
+                      readOnly
+                      value={base64Encode(JSON.stringify(content))}
+                      style={{
+                        width: "100%",
+                        minHeight: "120px",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        background: "#09120c",
+                        border: "1px solid #1a2f24",
+                        color: "#94a3b8",
+                        fontFamily: "monospace",
+                        fontSize: "12px",
+                        marginTop: "8px"
+                      }}
+                      onClick={(e) => {
+                        (e.target as HTMLTextAreaElement).select();
+                      }}
+                    />
+                    <button 
+                      onClick={() => {
+                        const envValue = base64Encode(JSON.stringify(content));
+                        navigator.clipboard.writeText(envValue);
+                        showToast("Environment variable copied to clipboard!");
+                      }}
+                      className="admin-btn admin-btn-secondary"
+                      style={{ marginTop: "8px" }}
+                    >
+                      📋 Copy to Clipboard
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
